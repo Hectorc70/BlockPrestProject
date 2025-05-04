@@ -32,6 +32,7 @@ Riesgo de fraude en tandas → Contratos inteligentes auditables
 Contract	Chain	Purpose
 BlockPrestMXNBHub	Arbitrum	Central MXNB pool
 MXNBWrapper	All	wMXBN minter
+
 🛠️ Installation / Instalación
 bash
 git clone https://github.com/BlockPrest/blockprest-core.git
