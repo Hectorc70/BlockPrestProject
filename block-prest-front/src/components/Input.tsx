@@ -14,6 +14,7 @@ interface FormInputProps {
   disabled?: boolean
   defaultValue?: string | number | readonly string[] | undefined
   helperText?: string
+  step?: string
 }
 
 
@@ -29,7 +30,8 @@ const FormInput: React.FC<FormInputProps> = ({
   minLength = undefined,
   disabled = false,
   defaultValue,
-  helperText
+  helperText,
+  step
 }) => {
   return (
     <div className={`mb-4 flex flex-col ${className}`}>
@@ -38,10 +40,11 @@ const FormInput: React.FC<FormInputProps> = ({
       </label>
       <input
         id={name}
+        step={step}
         type={type}
         placeholder={placeholder}
         {...register}
-        className={` mt-1 p-2 w-full border bg-background border-background ${disabled ? 'text-colorTextDisabled hover:border-hintColor ' : 'text-colorText hover:border-primary '} rounded-md  focus:outline-none`}
+        className={` mt-1 p-2 w-full border bg-backgroundSecondary border-hintColor ${disabled ? 'text-colorTextDisabled hover:border-primary ' : 'text-colorText hover:border-primary '} rounded-md  focus:outline-none`}
         maxLength={maxLength}
         minLength={minLength}
         disabled={disabled}

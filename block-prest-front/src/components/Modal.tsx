@@ -38,7 +38,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ children,
             type: 'spring',
             stiffness: 260,
             damping: 20
-          }} className={`bg-background rounded-lg shadow-lg p-5 w-full max-h-3/4  sm:w-1/2 overflow-auto`}>
+          }} className={`bg-backgroundSecondary rounded-lg shadow-lg p-5 w-full max-h-3/4  sm:w-1/2 overflow-auto`}>
           {/* Encabezado */}
           <div className='px-4  text-lg font-semibold text-colorText  flex justify-between'>
             <span className='font-bold text-colorText'>{title}</span>

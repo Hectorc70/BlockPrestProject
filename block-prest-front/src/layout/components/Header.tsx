@@ -98,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                     <ButtonSmall
                         classname="text-ellipsis flex flex-row items-center justify-between bg-hintColor text-onPrimary hover:bg-hoverPrimary"
                         type="button" onClick={addressUser !== '' ? signOut : connectWallet}
-                        status={StatusButton.Enabled}>
+                        status={stutusButton}>
                         {addressUser !== '' ? 'Desconectar' : 'Conectar'}
                         {addressUser !== '' ? <IoCheckmarkDoneCircle className="ml-2" />:<FaWallet className="ml-2" />}
                     </ButtonSmall>
