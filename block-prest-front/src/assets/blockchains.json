@@ -13,12 +13,12 @@
   {
     "name": "Scroll",
     "chainId": "534351",
-    "chainIdHex": "0x82867",
+    "chainIdHex": "0x8274f",
     "rpcUrl": [
-      "https://rpc.testnet.mantle.xyz"
+      "https://sepolia-rpc.scroll.io"
     ],
     "rpcBlockExplorerUrls": [
-      "https://explorer.testnet.mantle.xyz"
+      "https://sepolia.scrollscan.com"
     ]
   }
 ]

@@ -53,3 +53,21 @@ NFTs de reputación multichain
 Colateralización del 150%
 
 Scoring crediticio en tiempo real
+
+
+
+Address SmartContracts
+- Arbitrum Sepolia Testnet
+  - BlockPrestMXNBHub: https://sepolia.arbiscan.io/address/0xD00fE630dEBBc7E1B81b1bbc06191d7050a43E3c
+  - MXNBWrapper:https://sepolia.arbiscan.io/address/0x46c967c9329a7549c69b34D78AD21eca53B9E94A
+
+- Scroll Sepolia Testnet
+  - LoanPool:https://sepolia.scrollscan.com/address/0x3C830CE46E13331d576Dd1DD1E7ec8B0c28BFbAB
+  - Lock: https://sepolia.scrollscan.com/address/0xb814652d2e7e1fD26181fdccEb10F087dF212902
+  - Reputation: https://sepolia.scrollscan.com/address/0xA4990a1f673B9D594f743C471E1AdDB0E7962633
+  - Vault: https://sepolia.scrollscan.com/address/0xE377616C60227045Cecd7b547727E8B9B4a25298
+
+
+Colateralización del 150%
+
+Scoring crediticio en tiempo real

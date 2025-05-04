@@ -37,6 +37,25 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "allGroupIds",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address[]",
         "name": "members",
         "type": "address[]"
@@ -61,6 +80,39 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllLoanGroups",
+    "outputs": [
+      {
+        "internalType": "address[][]",
+        "name": "membersList",
+        "type": "address[][]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "totalAmounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "terms",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "startDates",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "ids",
+        "type": "bytes32[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

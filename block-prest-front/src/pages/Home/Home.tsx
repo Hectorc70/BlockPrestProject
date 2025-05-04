@@ -15,6 +15,13 @@ import { IGroup } from "@/models/group.model";
 import ModalComponent from "@/components/Modal";
 import { ScreenStatus } from "@/models/enums";
 import FormInput from "@/components/Input";
+import useAuthUserHandling from "@/hooks/useAuth";
+import { IChain } from "@/models/chain.model";
+import ChainsService from "@/services/chain.service";
+import web3Helper from "@/common/web3helperCustom";
+import getContract from "@/common/contract";
+import Web3 from "web3";
+import { lsWallet } from "@/common/constants";
 
 const HomePage: React.FC = () => {
 
@@ -23,12 +30,15 @@ const HomePage: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   // const [items, setItems] = useState<Array<ILoan>>([])
-  // const [statusScreen, setStatusScreen] = useState<ScreenStatus>(ScreenStatus.success)
-  const [items, setItems] = useState<Array<ILoan>>([])
+  const [statusScreen, setStatusScreen] = useState<ScreenStatus>(ScreenStatus.success)
+  const [items, setItems] = useState<Map<string, IChain>>(new Map<string, IChain>());
   const [showCreateGroup, setShowCreateGroup] = useState(false)
   const [statusModal, setStatusModal] = useState<ScreenStatus>(ScreenStatus.success)
   const [messageErrorModal, setErrorMessageModal] = useState("")
   const { register, handleSubmit, formState: { errors }, reset, setValue, } = useForm<IGroup>()
+  const { configureNetwork } = useAuthUserHandling()
+  const [userAddress, setUserAddress] = useState("")
+  const [groupsSave, setGroupsSave] = useState<any[]>([])
   const init = () => {
     try {
       dispatch(changeTitle("Inicio"));
@@ -39,8 +49,29 @@ const HomePage: React.FC = () => {
   }
   const getData = async () => {
     try {
-      // setStatusScreen(ScreenStatus.loading)
-      // setStatusScreen(ScreenStatus.success)
+      setStatusScreen(ScreenStatus.loading)
+      await configureNetwork({
+        "name": "Scroll",
+        "chainId": "534351",
+        "chainIdHex": "0x8274f",
+        "rpcUrl": [
+          "https://sepolia-rpc.scroll.io"
+        ],
+        "rpcBlockExplorerUrls": [
+          "https://sepolia.scrollscan.com"
+        ]
+      })
+      const response = await ChainsService.getAll()
+      setItems(response ?? new Map())
+      const contract = await getContract();
+      const groups = await contract.methods
+        .getAllLoanGroups().call()
+        debugger
+      console.log(groups)
+      setStatusScreen(ScreenStatus.success)
+      setGroupsSave(groups??[]);
+      const address = localStorage.getItem(lsWallet) ?? ''
+      setUserAddress(address)
     } catch (error: any) {
       toast.error(error.message)
     }
@@ -53,13 +84,40 @@ const HomePage: React.FC = () => {
   const onSubmit = async (data: IGroup) => {
     try {
       setStatusModal(ScreenStatus.loading)
-      configureNetwork()
+      //se configura scroll
+      await configureNetwork({
+        "name": "Scroll",
+        "chainId": "534351",
+        "chainIdHex": "0x8274f",
+        "rpcUrl": [
+          "https://sepolia-rpc.scroll.io"
+        ],
+        "rpcBlockExplorerUrls": [
+          "https://sepolia.scrollscan.com"
+        ]
+      })
+      const contract = await getContract();
+      console.log("Contrato:", contract);
+      console.log("address user :", userAddress);
+
+      // debugger
+      const amountWei = Web3.utils.toWei(data.amount, "ether");
+      const months = Web3.utils.toWei(data.limitAmounts, "ether");
+      const address = ['0xb1a712fE0fAe891b6CE0f65E39cc8129e9c70E3a', '0x5cFaACEC0D149D090C8744E1458f403D78520112']
+      // debugger
+      await contract.methods
+        .createLoanGroup(address, amountWei, months)
+        .send({ from: userAddress })
+        .on('transactionHash', hash => console.log("TX Hash:", hash))
+        .on('receipt', receipt => console.log("Mined:", receipt))
+        .on('error', error => console.error("Error:", error));
+
       setStatusModal(ScreenStatus.success)
 
     } catch (error: any) {
-      toast.error(error)
+      // toast.error(error)
       setStatusModal(ScreenStatus.error)
-      setErrorMessageModal(error.message)
+      setErrorMessageModal(error.toString())
     }
   }
   return (<>
@@ -76,9 +134,9 @@ const HomePage: React.FC = () => {
           <SiCashapp className="text-onBackground text-5xl mb-3" />
           <span className="font-bold text-onBackground font-2xl">Fondear prestamo</span>
         </div>
-        <div className=" cursor-pointer flex flex-col justify-center items-center p-5 w-[300px] h-[120px] bg-blue-300 rounded-2xl">
+        <div onClick={() => setShowCreateGroup(true)} className=" cursor-pointer flex flex-col justify-center items-center p-5 w-[300px] h-[120px] bg-blue-300 rounded-2xl">
           <SiCashapp className="text-onBackground text-5xl  mb-3" />
-          <span className="font-bold text-onBackground font-2xl" onClick={() => setShowCreateGroup(true)}>Solicitar prestamo</span>
+          <span className="font-bold text-onBackground font-2xl" >Solicitar prestamo</span>
         </div>
       </div>
     </div>
@@ -105,7 +163,7 @@ const HomePage: React.FC = () => {
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 rounded-lg p-2 my-3">
 
             <FormInput label="Monto de prestamo"
-              name="amount" type="number" error={errors.amount} register={register('amount',
+              name="amount" step="0.000001" type="number" error={errors.amount} register={register('amount',
                 {
                   required: {
                     value: true,
@@ -117,15 +175,14 @@ const HomePage: React.FC = () => {
                   }
                 })} />
             <FormInput label="Meses a pagar"
-              name="amount"
-              step="0.000001"
-              type="number" error={errors.amount} register={register('amount',
+              name="limitAmounts"
+              type="number" error={errors.limitAmounts} register={register('limitAmounts',
                 {
                   required: {
                     value: true,
                     message: ""
                   },
-                  minLength: {
+                  min: {
                     value: 1,
                     message: ""
                   },

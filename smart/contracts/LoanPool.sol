@@ -20,6 +20,7 @@ contract LoanPool {
     }
     
     mapping(bytes32 => LoanGroup) public loanGroups;
+    bytes32[] public allGroupIds;
     uint256 public groupCounter;
 
     event LoanCreated(bytes32 groupId, address[] members);
@@ -44,6 +45,7 @@ contract LoanPool {
             term: termInMonths,
             startDate: block.timestamp
         });
+        allGroupIds.push(groupId);
         groupCounter++;
         
         for (uint i = 0; i < members.length; i++) {
@@ -53,5 +55,32 @@ contract LoanPool {
         }
         
         emit LoanCreated(groupId, members);
+    }
+    /// ✅ Devuelve todos los LoanGroups
+    function getAllLoanGroups() external view returns (
+        address[][] memory membersList,
+        uint256[] memory totalAmounts,
+        uint256[] memory terms,
+        uint256[] memory startDates,
+        bytes32[] memory ids
+    ) {
+        uint256 len = allGroupIds.length;
+
+        membersList = new address[][](len);
+        totalAmounts = new uint256[](len);
+        terms = new uint256[](len);
+        startDates = new uint256[](len);
+        ids = new bytes32[](len);
+
+        for (uint i = 0; i < len; i++) {
+            bytes32 id = allGroupIds[i];
+            LoanGroup storage g = loanGroups[id];
+
+            membersList[i] = g.members;
+            totalAmounts[i] = g.totalAmount;
+            terms[i] = g.term;
+            startDates[i] = g.startDate;
+            ids[i] = id;
+        }
     }
 }

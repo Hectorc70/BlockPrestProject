@@ -1,11 +1,11 @@
 const hre = require("hardhat");
 
 async function main() {
-  // const smartname = 'LoanPool'
+  const smartname = 'LoanPool'
   // const smartname = 'Reputation'
   // const smartname = 'Vault'
   // const smartname = 'Lock'
-  const smartname = 'BlockPrestMXNBHub'
+  // const smartname = 'BlockPrestMXNBHub'
 
 
 

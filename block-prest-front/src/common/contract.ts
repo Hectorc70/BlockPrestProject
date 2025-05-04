@@ -4,7 +4,7 @@ import web3 from "./web3helperCustom";
 
 
 // Dirección del contrato en la blockchain
-export const contractAddressLoalPool: string = "0xd56bb9025eAa8870c7BD238574bD5186E3e6272B"; //nova
+export const contractAddressLoalPool: string = "0x3C830CE46E13331d576Dd1DD1E7ec8B0c28BFbAB"; //nova
 
 const getContract = async () => {
   const abiData = loalABI;
