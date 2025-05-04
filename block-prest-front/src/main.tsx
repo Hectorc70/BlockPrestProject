@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <MetaMaskProvider
       sdkOptions={{
         dappMetadata: {
-          name: "Nova",
+          name: "BlockPrest",
           url: '',
         },
         infuraAPIKey: infuraApiKey,

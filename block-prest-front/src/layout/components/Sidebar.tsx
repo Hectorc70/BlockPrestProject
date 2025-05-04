@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
-// import logo from '@/assets/logo.png'
+import logo from '@/assets/logo.png'
 import { routeNames } from "@/router/routes";
 import { IoIosCash } from "react-icons/io";
+import { GoHomeFill } from "react-icons/go";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -16,17 +17,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         >
             {/* Logo */}
             <div className={`p-6 justify-center flex`}>
-                {/* <img src={logo} alt="logo" className="w-20" /> */}
+                <img src={logo} alt="logo" className="w-50" />
             </div>
 
             {/* Menu Items */}
             <nav className="flex-1 space-y-4 mt-10  px-2">
-
-                <NavLink
+            <NavLink
                     key={routeNames.initPage}
                     to={routeNames.initPage}
                     className={({ isActive }) =>
-                        `flex items-center rounded-lg gap-4 p-2 py-3 text-sm text-primary bg-hintColor hover:bg-primary hover:text-onPrimary ${isActive ? "text-white bg-primary " : "text-onPrimary"
+                        `flex items-center rounded-lg gap-4 p-2 text-sm text-primary bg-hintColor hover:bg-primary hover:text-onPrimary ${isActive ? "text-white bg-primary " : "text-onPrimary"
+                        }`
+                    }
+                >
+                    <GoHomeFill className="text-lg" />
+                    <span className={`${!isOpen && "hidden"} sm:block`}>
+                        {'Inicio'}
+                    </span>
+                </NavLink>
+                <NavLink
+                    key={routeNames.loans}
+                    to={routeNames.loans}
+                    className={({ isActive }) =>
+                        `flex items-center rounded-lg gap-4 p-2 text-sm text-onBackground bg-background hover:bg-primary hover:text-onPrimary ${isActive ? "text-white bg-primary " : "text-onPrimary"
                         }`
                     }
                 >

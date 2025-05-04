@@ -5,16 +5,17 @@ interface ButtonLargeProps {
   type?: "submit" | "reset" | "button" | undefined;
   status?: StatusButton;
   onClick?: () => void;
+  classname?: string
 }
 
-const ButtonSmall: React.FC<ButtonLargeProps> = ({ type="submit", children, status=StatusButton.Enabled, onClick }) => {
+const ButtonSmall: React.FC<ButtonLargeProps> = ({ type="submit", children, status=StatusButton.Enabled, onClick, classname='' }) => {
   return (<>
     {status === StatusButton.Enabled && (
-        <button className="cursor-pointer rounded-md h-10 px-5 text-sm bg-primary text-onPrimary hover:bg-hoverPrimary transition" onClick={onClick} type={type}>{children}</button>)
+        <button className={` cursor-pointer rounded-2xl h-10 px-5 text-sm bg-primary text-onPrimary hover:bg-hoverPrimary transition ${classname}`} onClick={onClick} type={type}>{children}</button>)
     }
     {
       status === StatusButton.Loading && (
-        <button className="rounded-md h-10 flex flex-row justify-center items-center px-5 bg-primary text-onPrimary hover:bg-hoverPrimary transition" onClick={onClick} type={type}> <svg
+        <button className={`rounded-2xl h-10 flex flex-row justify-center items-center px-5 bg-primary text-onPrimary hover:bg-hoverPrimary transition ${classname}`} onClick={onClick} type={type}> <svg
           className="w-8 h-8 mr-2 animate-spin text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

@@ -5,41 +5,41 @@ import { useSDK } from "@metamask/sdk-react";
 import { lsWallet } from "@/common/constants";
 // import { changeDataAuth, cleanUser } from "@/redux/userSlice";
 import toast from "react-hot-toast";
-import UsersService from "@/services/usersService";
-import { UserModel } from "@/models/userModel";
-import { chainId, networkName } from "@/common/constants";
 import { useNavigate } from "react-router";
 import { routeNames } from "@/router/routes";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { IChain } from "@/models/chain.model";
 // import { setShowModalNewUser, setShowModalUserExists } from "../../../redux/globalSlice";
 const useAuthUserHandling = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { sdk, connected, connecting, provider } = useSDK();
   const [isSendingData, setIsSendingData] = useState(false);
-  const configureNetwork = async () => {
+  const configureNetwork = async (chain:IChain) => {
     try {
       const networkConfig = {
-        chainId: chainId,
-        chainName: networkName,
+        chainId: chain.chainIdHex,
+        chainName: chain.name,
         nativeCurrency: {
           name: 'ETH',
           symbol: 'ETH',
           decimals: 18,
         },
-        rpcUrls: [`https://eth-sepolia.public.blastapi.io`,'https://api.zan.top/eth-sepolia'],
-        blockExplorerUrls: ['https://sepolia.explorer.zksync.io'],
+        rpcUrls: chain.rpcUrl,
+        blockExplorerUrls: chain.rpcBlockExplorerUrls,
       };
+      console.info('========Network configuration:', networkConfig);
       try {
         const chainIdSelect = await provider?.request({ method: 'eth_chainId' });
-        if (chainIdSelect === chainId) {
+        if (chainIdSelect === chain.chainId) {
           return
         }
+        console.log('Switching network...');
         await provider?.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: chainId }],
+          params: [{ chainId: chain.chainIdHex }],
         });
+        console.log('Switching network... success');
       } catch (switchError: any) {
         if (switchError.code === 4902) {
           try {
@@ -47,20 +47,22 @@ const useAuthUserHandling = () => {
               method: 'wallet_addEthereumChain',
               params: [networkConfig],
             });
-            await configureNetwork()
+            await configureNetwork(
+              chain
+            )
           } catch (error: any) {
-            throw new Error('Failed to add Polygon Mumbai network')
+            throw new Error('Failed to add'+' '+chain.name+' '+'network')
           }
         } else {
-          throw new Error('Failed to switch to Polygon Mumbai network')
+          throw new Error('Failed to switch to' +' '+chain.name+' '+'network')
         }
         throw new Error(switchError.message)
       }
 
-      provider?.setSDKProviderState({
-        chainId: chainId, // Cambia este valor al ID de cadena que desees usar
-        networkVersion: '11155111' // Cambia este valor a la versión de red que desees usar
-      });
+      // provider?.setSDKProviderState({
+      //   chainId: chain.chainIdHex, // Cambia este valor al ID de cadena que desees usar
+      //   networkVersion: chain.chainId// Cambia este valor a la versión de red que desees usar
+      // });
       console.log('Network and Chain configured.');
     } catch (error: any) {
       throw new Error(error.message)
@@ -69,7 +71,7 @@ const useAuthUserHandling = () => {
   const disconnect = async () => {
 
     try {
-      localStorage.removeItem(lsId)
+      // localStorage.removeItem(lsId)
       sdk?.disconnect()
       // sdk?.terminate()
       // dispatch(cleanUser())
@@ -80,57 +82,21 @@ const useAuthUserHandling = () => {
   }
 
 
-  const saveData = async (account: string, uuid_referred: string = '') => {
+  const saveData = async (account: string) => {
     try {
-      const response = await UsersService.createUser('default', account, uuid_referred);
-      console.log(response);
-
-      const balance = await getBalanceAddress(account);
-      // const model = new UserModel(
-      //   response.id,
-      //   response.username.slice(0, 5),
-      //   response.address,
-      //   balance ?? '0.0',
-      //   response.id_membership,
-      //   0,
-      //   0,
-      //   0, response.uuid_user,
-      //   response.balance_rewards,
-      //   response.total_referreals_users,
-      //   response.commisions_rewards_referreals ?? 0.0,
-      //   response.commisions_rewards_referreals_available ?? 0.0,
-      //   response.commisions_rewards_referreals_total ?? 0.0,
-      //   response.membership_name,
-      //   response.membership_image,
-      //   response.min_rwafi_ratio_in_staking,
-      //   response.max_rwafi_ratio_in_staking,
-      //   response.next_membership,
-      //   response.next_membership_image,
-      //   response.balance_tokens_nova,
-      //   response.balance_staking_tokens,
-      // );
-
-      // dispatch(changeDataAuth(model));
-      // localStorage.setItem(lsId, response.id);
-      // localStorage.setItem(lsAddress, response.address);
-      // } else if (uuid_referred != '') {
-      //   console.log('Show User Exists')
-      //   setShowModalUserExists(true)
-      // }
-
+      localStorage.setItem(lsWallet, account)
       return;
 
 
     } catch (error: any) {
       console.log(error)
       sdk?.terminate();
-      // toast.error(error.message);
       throw new Error(
         error.message
       )
     }
   };
-  const connect = async (uuid_referred: string = '') => {
+  const connect = async (chain: IChain) => {
     try {
       setIsSendingData(true)
       console.log(sdk)
@@ -142,12 +108,9 @@ const useAuthUserHandling = () => {
           'Error al conectar'
         )
       }
-      await configureNetwork()
-
-
-      const response = await saveData(accounts?.[0], uuid_referred)
-      console.log(response)
-      // toast.success('User logged in correctly in nova')
+      await configureNetwork(chain)
+      toast.success('User conectado con exito')
+      localStorage.setItem(lsWallet, accounts[0])
     } catch (err: any) {
       sdk?.terminate()
       throw new Error(
@@ -155,14 +118,13 @@ const useAuthUserHandling = () => {
       )
     }
   }
-  const validateSession = async () => {
+  const validateSession = async (chain: IChain) => {
     try {
-      // const idUser = localStorage.getItem(lsId) ?? ''
-      if (idUser === '' || idUser === undefined) {
+      const wallet = localStorage.getItem(lsWallet) ?? ''
+      if (wallet === '' || wallet === undefined) {
         await disconnect()
         console.log('===== SESION INVALIDA ====== ')
-        // await connect()
-        // navigate(routesNames.uknow, { replace: true })
+        await connect(chain)
         return
       }
 
@@ -197,7 +159,8 @@ const useAuthUserHandling = () => {
   const logout = async () => {
 
     try {
-      disconnect()
+      sdk?.terminate()
+      localStorage.clear()
       navigate(routeNames.initPage, { replace: true })
     } catch (error: any) {
       toast.error(error)

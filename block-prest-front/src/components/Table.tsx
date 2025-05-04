@@ -32,10 +32,9 @@ interface TableComponentProps {
 
 const TableComponent: React.FC<TableComponentProps> = ({ columns, data, status = ScreenStatus.loading, messageError = 'sadas d dsfsd', actions, headerRightComponent, onReintent }) => {
   return (
-    <div className="relative overflow-x-auto p-2  w-full py-5">
+    <div className="relative overflow-x-auto w-full py-1">
       {/* HEADER TABLE */}
-      <div className="flex flex-row flex-wrap justify-between bg-background p-3 rounded-lg">
-
+      <div className="flex flex-row flex-wrap justify-between ">
         {/* Componente del lado derecho */}
         {headerRightComponent && (
           <div className="w-full flex justify-end">
@@ -44,10 +43,10 @@ const TableComponent: React.FC<TableComponentProps> = ({ columns, data, status =
         )}
       </div>
       {/* TABLE */}
-      <section className="bg-background rounded-lg mt-5">
+      <section className="bg-backgroundSecondary rounded-lg mt-5">
         <div className="max-h-[500px] overflow-y-auto ">
           <table className="w-full text-sm text-left rtl:text-right text-colorText mt-3 mb-5 ">
-            <thead className="sticky top-0 z-0 text-sm text-colorText uppercase bg-background rounded-lg border-b border-onBackground">
+            <thead className="sticky top-0 z-0 text-sm text-colorText uppercase bg-backgroundSecondary rounded-lg border-b border-onBackground">
               <tr>
                 <th scope="col" className="p-4">
                   <div className="flex items-center">
@@ -65,7 +64,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ columns, data, status =
             {status === ScreenStatus.success &&
               <tbody >
                 {data.map((row, index) => (
-                  <tr key={index} className="bg-background border-b mb-5   border-onBackground hover:bg-hintColor ">
+                  <tr key={index} className="bg-backgroundSecondary border-b mb-5   border-onBackground hover:bg-hintColor ">
                     <td className="w-4 p-2 rounded-md">
                       <div className="flex items-center">
                         {/* Aquí podrías agregar un checkbox para cada fila */}

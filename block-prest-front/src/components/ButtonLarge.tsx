@@ -10,11 +10,11 @@ interface ButtonLargeProps {
 const ButtonLarge: React.FC<ButtonLargeProps> = ({ type, children, status=StatusButton.Enabled, onClick }) => {
   return (<>
     {status === StatusButton.Enabled && (
-      <button className="cursor-pointer rounded-md  flex-row justify-center items-center w-full  h-12 px-5 text-sm bg-primary text-onPrimary hover:bg-hoverPrimary transition" onClick={onClick} type={type}>{children}</button>)
+      <button className="cursor-pointer rounded-2xl flex-row justify-center items-center w-full  h-12 px-5 text-sm bg-primary text-onPrimary hover:bg-hoverPrimary transition" onClick={onClick} type={type}>{children}</button>)
     }
     {
       status === StatusButton.Loading && (
-        <button className="rounded-md flex flex-row justify-center items-center w-full h-12 px-5 bg-primary text-onPrimary hover:bg-hoverPrimary transition"> 
+        <button className="rounded-2xl flex flex-row justify-center items-center w-full h-12 px-5 bg-primary text-onPrimary hover:bg-hoverPrimary transition"> 
         <svg
           className="w-8 h-8 mr-2 animate-spin text-white"
           xmlns="http://www.w3.org/2000/svg"

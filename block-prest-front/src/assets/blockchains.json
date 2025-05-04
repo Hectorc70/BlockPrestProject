@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Arbitrum Sepolia",
+    "chainId": "421614",
+    "chainIdHex": "0x66eee",
+    "rpcUrl": [
+      "sepolia-rollup.arbitrum.io/rpc"
+    ],
+    "rpcBlockExplorerUrls": [
+      "https://sepolia.arbiscan.io"
+    ]
+  },
+  {
+    "name": "Scroll",
+    "chainId": "534351",
+    "chainIdHex": "0x82867",
+    "rpcUrl": [
+      "https://rpc.testnet.mantle.xyz"
+    ],
+    "rpcBlockExplorerUrls": [
+      "https://explorer.testnet.mantle.xyz"
+    ]
+  }
+]

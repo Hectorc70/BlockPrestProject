@@ -11,7 +11,7 @@ const AppLayout = () => {
         setIsSidebarOpen(!isOpenSideBar);
     };
     return (
-        <div className="flex h-screen bg-light-background  text-colorText ">
+        <div className="flex h-screen bg-background  text-colorText ">
             {/* Sidebar */}
             <div className="relative">
                 <button
@@ -24,12 +24,11 @@ const AppLayout = () => {
                 <Sidebar isOpen={isOpenSideBar} toggleSidebar={onOpenSideBAr} />
             </div>
             {/* Main Content */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col bg-backgroundSecondary m-2 rounded-2xl p-2">
                 {/* Header */}
                 <Header toggleSidebar={onOpenSideBAr} />
-
                 {/* Page Content */}
-                <main className="flex-1 bg-background p-1 overflow-auto w-full h-full">
+                <main className="flex-1  p-1 overflow-auto w-full h-full">
                     <div className="bg-hintColor  w-full h-full p-2 rounded-lg ">
                     <Outlet />
                     </div>
