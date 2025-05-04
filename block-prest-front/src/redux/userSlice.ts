@@ -14,7 +14,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<IUser>) => {
-      // state.username = action.payload.username;
+      state.fullname = action.payload.fullname;
     },
   },
 });

@@ -18,7 +18,6 @@ import FormInput from "@/components/Input";
 import useAuthUserHandling from "@/hooks/useAuth";
 import { IChain } from "@/models/chain.model";
 import ChainsService from "@/services/chain.service";
-import web3Helper from "@/common/web3helperCustom";
 import getContract from "@/common/contract";
 import Web3 from "web3";
 import { lsWallet } from "@/common/constants";
@@ -35,7 +34,7 @@ const HomePage: React.FC = () => {
   const [showCreateGroup, setShowCreateGroup] = useState(false)
   const [statusModal, setStatusModal] = useState<ScreenStatus>(ScreenStatus.success)
   const [messageErrorModal, setErrorMessageModal] = useState("")
-  const { register, handleSubmit, formState: { errors }, reset, setValue, } = useForm<IGroup>()
+  const { register, handleSubmit, formState: { errors }, } = useForm<IGroup>()
   const { configureNetwork } = useAuthUserHandling()
   const [userAddress, setUserAddress] = useState("")
   const [groupsSave, setGroupsSave] = useState<any[]>([])
@@ -63,13 +62,15 @@ const HomePage: React.FC = () => {
       })
       const response = await ChainsService.getAll()
       setItems(response ?? new Map())
+      console.log(items)
       const contract = await getContract();
       const groups = await contract.methods
         .getAllLoanGroups().call()
-        debugger
-      console.log(groups)
       setStatusScreen(ScreenStatus.success)
       setGroupsSave(groups??[]);
+      console.log(groupsSave)
+      console.log(statusScreen)
+
       const address = localStorage.getItem(lsWallet) ?? ''
       setUserAddress(address)
     } catch (error: any) {

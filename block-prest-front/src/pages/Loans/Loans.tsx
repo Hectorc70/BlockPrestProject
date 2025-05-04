@@ -10,7 +10,7 @@ import { AppDispatch } from "@/redux/store";
 import { changeTitle } from "@/redux/globalSlice";
 import TableComponent from "@/components/Table";
 import { FaEdit } from "react-icons/fa";
-import { ILoan } from "@/models/lean.model";
+// import { ILoan } from "@/models/lean.model";
 
 const LoansPage: React.FC = () => {
 
@@ -18,7 +18,7 @@ const LoansPage: React.FC = () => {
 
 
   const dispatch = useDispatch<AppDispatch>();
-  const [items, setItems] = useState<Array<ILoan>>([])
+  // const [items, setItems] = useState<Array<ILoan>>([])
   const [statusScreen, setStatusScreen] = useState<ScreenStatus>(ScreenStatus.success)
   // const [pagination, setPagination] = useState({
   //   pageIndex: 0,
@@ -63,7 +63,7 @@ const LoansPage: React.FC = () => {
     {
       icon: FaEdit,
       label: 'Editar',
-      onClick: (row: ILoan) => {
+      onClick: () => {
         // navigate(getTeacherDetailPath(row.uuid ?? '')) 
       }
     }
@@ -78,7 +78,7 @@ const LoansPage: React.FC = () => {
       <div className="w-full">
         <TableComponent
           columns={columns}
-          data={items} status={statusScreen}
+          data={[]} status={statusScreen}
           actions={actions}
           onSearch={(value: string) => console.log(value)}
           headerRightComponent={<ButtonSmall onClick={() => navigate('')}>Solicitar nuevo prestamo</ButtonSmall>}
