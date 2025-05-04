@@ -1,0 +1,21 @@
+{
+  "name": "smart",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@hyperlane-xyz/core": "^7.1.4",
+    "@hyperlane-xyz/sdk": "^12.5.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.5.0",
+    "ethers": "^6.13.7",
+    "hardhat": "^2.23.0"
+  }
+}
