@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSDK } from "@metamask/sdk-react";
 // import { useDispatch } from "react-redux";
-import { lsAddress, lsBalance, lsId } from "@/core/constants/constantsLocalStorage";
+import { lsWallet } from "@/common/constants";
 // import { changeDataAuth, cleanUser } from "@/redux/userSlice";
 import toast from "react-hot-toast";
 import UsersService from "@/services/usersService";
@@ -72,7 +72,7 @@ const useAuthUserHandling = () => {
       localStorage.removeItem(lsId)
       sdk?.disconnect()
       // sdk?.terminate()
-      dispatch(cleanUser())
+      // dispatch(cleanUser())
       return
     } catch (error: any) {
       toast.error(error.message)
@@ -86,41 +86,33 @@ const useAuthUserHandling = () => {
       console.log(response);
 
       const balance = await getBalanceAddress(account);
-      const model = new UserModel(
-        response.id,
-        response.username.slice(0, 5),
-        response.address,
-        balance ?? '0.0',
-        response.id_membership,
-        0,
-        0,
-        0, response.uuid_user,
-        response.balance_rewards,
-        response.total_referreals_users,
-        response.commisions_rewards_referreals ?? 0.0,
-        response.commisions_rewards_referreals_available ?? 0.0,
-        response.commisions_rewards_referreals_total ?? 0.0,
-        response.membership_name,
-        response.membership_image,
-        response.min_rwafi_ratio_in_staking,
-        response.max_rwafi_ratio_in_staking,
-        response.next_membership,
-        response.next_membership_image,
-        response.balance_tokens_nova,
-        response.balance_staking_tokens,
-      );
+      // const model = new UserModel(
+      //   response.id,
+      //   response.username.slice(0, 5),
+      //   response.address,
+      //   balance ?? '0.0',
+      //   response.id_membership,
+      //   0,
+      //   0,
+      //   0, response.uuid_user,
+      //   response.balance_rewards,
+      //   response.total_referreals_users,
+      //   response.commisions_rewards_referreals ?? 0.0,
+      //   response.commisions_rewards_referreals_available ?? 0.0,
+      //   response.commisions_rewards_referreals_total ?? 0.0,
+      //   response.membership_name,
+      //   response.membership_image,
+      //   response.min_rwafi_ratio_in_staking,
+      //   response.max_rwafi_ratio_in_staking,
+      //   response.next_membership,
+      //   response.next_membership_image,
+      //   response.balance_tokens_nova,
+      //   response.balance_staking_tokens,
+      // );
 
-      dispatch(changeDataAuth(model));
-      localStorage.setItem(lsId, response.id);
-      localStorage.setItem(lsAddress, response.address);
-      // Mostrar el modal si es un nuevo usuario
-      console.log(response)
-      // debugger
-      if (response.is_new_user) {
-        // dispatch(setShowModalNewUser(true));
-      } else if (uuid_referred != '') {
-        // dispatch(setShowModalUserExists(true))
-      }
+      // dispatch(changeDataAuth(model));
+      // localStorage.setItem(lsId, response.id);
+      // localStorage.setItem(lsAddress, response.address);
       // } else if (uuid_referred != '') {
       //   console.log('Show User Exists')
       //   setShowModalUserExists(true)
@@ -165,7 +157,7 @@ const useAuthUserHandling = () => {
   }
   const validateSession = async () => {
     try {
-      const idUser = localStorage.getItem(lsId) ?? ''
+      // const idUser = localStorage.getItem(lsId) ?? ''
       if (idUser === '' || idUser === undefined) {
         await disconnect()
         console.log('===== SESION INVALIDA ====== ')
@@ -192,11 +184,9 @@ const useAuthUserHandling = () => {
       const balanceInEther = (parseInt(balanceInWei, 16) / Math.pow(10, 18)).toString();
       const balanceFormat = balanceInEther.toString()
       if (balanceFormat !== 'NaN') {
-        localStorage.setItem(lsBalance, balanceFormat)
         return balanceFormat
       } else {
-        const balanceLs = localStorage.getItem(lsBalance) ?? '0.0'
-        return balanceLs
+        return 0.0
       }
 
     } catch (error: any) {

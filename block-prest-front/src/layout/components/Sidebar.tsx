@@ -1,8 +1,5 @@
 import { NavLink } from "react-router-dom";
 // import logo from '@/assets/logo.png'
-import { FaHome, FaPeopleCarry, FaUsers } from "react-icons/fa";
-import { RiCalendarScheduleFill } from "react-icons/ri";
-import { FaSchoolFlag } from "react-icons/fa6";
 import { routeNames } from "@/router/routes";
 import { IoIosCash } from "react-icons/io";
 

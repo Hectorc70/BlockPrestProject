@@ -30,7 +30,7 @@ interface TableComponentProps {
   onReintent?: () => void;
 }
 
-const TableComponent: React.FC<TableComponentProps> = ({ columns, data, status = ScreenStatus.loading, messageError = 'sadas d dsfsd', actions, onSearch, headerRightComponent, onReintent }) => {
+const TableComponent: React.FC<TableComponentProps> = ({ columns, data, status = ScreenStatus.loading, messageError = 'sadas d dsfsd', actions, headerRightComponent, onReintent }) => {
   return (
     <div className="relative overflow-x-auto p-2  w-full py-5">
       {/* HEADER TABLE */}
